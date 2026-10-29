@@ -10,18 +10,19 @@
 <meta property="og:image" content="https://mety2027.com/assets/img/recto.jpg">
 <meta property="og:url" content="https://mety2027.com/">
 <meta name="theme-color" content="#FBF3E4">
-<link rel="icon" type="image/png" href="favicon.png?v=9">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=9">
-<link rel="preload" href="assets/fonts/pinyon.woff2?v=9" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/cormorant.woff2?v=9" as="font" type="font/woff2" crossorigin>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" type="image/png" href="favicon.png?v=10">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=10">
+<link rel="preload" href="assets/fonts/pinyon.woff2?v=10" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cormorant.woff2?v=10" as="font" type="font/woff2" crossorigin>
 <script>
   document.documentElement.classList.add("js");
   try { if (sessionStorage.getItem("enveloppe-ouverte")) document.documentElement.classList.add("deja-ouverte"); } catch (e) {}
 </script>
 <style>
-  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant.woff2?v=9") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
-  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant-italic.woff2?v=9") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
-  @font-face { font-family: "Pinyon"; src: url("assets/fonts/pinyon.woff2?v=9") format("woff2"); font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant.woff2?v=10") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant-italic.woff2?v=10") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+  @font-face { font-family: "Pinyon"; src: url("assets/fonts/pinyon.woff2?v=10") format("woff2"); font-display: swap; }
 
   :root {
     color-scheme: light;
@@ -148,6 +149,13 @@
     width: 100%; padding: 6px 2px 5px; border: 0; border-bottom: 1.5px solid #E2C48E; border-radius: 0;
     background: transparent; font: inherit; font-size: 1.25rem; color: var(--encre);
   }
+  .champ textarea {
+    width: 100%; margin-top: 4px; padding: 8px 10px; border: 1.5px solid #E2C48E; border-radius: 4px;
+    background: rgba(255, 252, 245, .7); font: inherit; font-size: 1.1rem; line-height: 1.4; color: var(--encre); resize: vertical;
+  }
+  .champ textarea:focus { outline: none; border-color: var(--orange); }
+  .ou { margin: 2px 0 2px 34px !important; font-style: italic; color: var(--encre-douce); font-size: 1rem; }
+  .case.inactive { opacity: .4; cursor: default; }
   .champ input:focus { outline: none; border-bottom-color: var(--orange); }
   fieldset { border: 0; margin: 22px 0 0; padding: 0; min-width: 0; }
   legend { font-family: var(--script); font-size: 1.7rem; color: var(--vert-clair); padding: 0; margin-bottom: 6px; }
@@ -195,7 +203,9 @@
 
   /* ---------- Infos pratiques ---------- */
   .infos { display: grid; gap: 34px; justify-items: center; }
-  .info { max-width: 30em; }
+  .info { max-width: 30em; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .info p { margin-left: auto; margin-right: auto; }
+  .equilibre { text-wrap: balance; }
   .info__icone { display: block; width: 46px; height: 46px; margin: 0 auto 4px; color: var(--vert); fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .info h3 { margin: 0 0 8px; font-family: var(--script); font-weight: 400; font-size: 2rem; line-height: 1.2; color: var(--vert-clair); }
   .info__accroche { font-style: italic; color: var(--orange); font-size: 1.2rem; }
@@ -220,8 +230,10 @@
     .histoire { grid-area: histoire; }
     .monogramme { grid-area: mono; align-self: center; width: clamp(170px, 15vw, 230px); margin: 0; }
     .entete__titre { grid-area: titre; align-self: center; }
-    .dates { font-size: clamp(1.6rem, 2.2vw, 2.1rem); }
-    .ville { font-size: clamp(3.2rem, 4.4vw, 4.4rem); }
+    .invitation { font-size: clamp(1.3rem, 1.75vw, 1.7rem); max-width: 17em; margin-bottom: 14px; }
+    .dates { font-size: clamp(2rem, 2.9vw, 2.8rem); }
+    .ville { font-size: clamp(3.8rem, 5.4vw, 5.6rem); }
+    .prenoms { font-size: clamp(1.4rem, 1.9vw, 1.85rem); }
     .rebours__valeur { font-size: clamp(2.6rem, 3.4vw, 3.4rem); }
     .histoire__titre { font-size: 2.4rem; }
 
@@ -317,7 +329,7 @@
 <div class="ecran-enveloppe" id="ecran-enveloppe">
   <button class="enveloppe" id="ouvrir" type="button" aria-label="Ouvrir l’invitation de Marine et Yohan">
     <span class="env__fond" aria-hidden="true"></span>
-    <span class="env__lettre" aria-hidden="true"><img src="assets/img/monogramme.webp?v=9" alt=""><span class="lettre__noms">Marine et Yohan</span><span class="lettre__dates">05.09.27 &amp; 06.09.27</span></span>
+    <span class="env__lettre" aria-hidden="true"><img src="assets/img/monogramme.webp?v=10" alt=""><span class="lettre__noms">Marine et Yohan</span><span class="lettre__dates">05.09.27 &amp; 06.09.27</span></span>
     <svg class="env__poches" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0 0 L150 112 L0 200 Z" fill="#FBEBD0"/>
       <path d="M300 0 L150 112 L300 200 Z" fill="#F6E1C0"/>
@@ -358,7 +370,7 @@
       <h1 class="ville">à Porto</h1>
       <p class="prenoms">Marine et Yohan</p>
     </div>
-    <img class="monogramme" src="assets/img/monogramme.webp?v=9" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
+    <img class="monogramme" src="assets/img/monogramme.webp?v=10" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
 
     <div class="entete__rebours rebours" id="rebours">
       <ul class="rebours__compteur" aria-hidden="true">
@@ -399,6 +411,10 @@
             <label for="nom">Nom</label>
             <input id="nom" name="nom" type="text" autocomplete="family-name" required>
           </div>
+          <div class="champ">
+            <label for="remarques">Allergies ou remarques</label>
+            <textarea id="remarques" name="remarques" rows="3" maxlength="500"></textarea>
+          </div>
           <input class="piege" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
         <div class="form__colonne">
@@ -406,6 +422,8 @@
             <legend>Je serai là</legend>
             <label class="case"><input type="checkbox" name="j5" value="oui"><span class="case__boite"></span><span>Le dimanche 5 septembre</span></label>
             <label class="case"><input type="checkbox" name="j6" value="oui"><span class="case__boite"></span><span>Le lundi 6 septembre</span></label>
+            <p class="ou">ou</p>
+            <label class="case"><input type="checkbox" name="absent" value="oui" id="absent"><span class="case__boite"></span><span>Je ne peux pas venir</span></label>
           </fieldset>
           <fieldset>
             <legend>À savoir</legend>
@@ -418,7 +436,7 @@
           <p class="message" id="message" role="status"></p>
         </div>
       </form>
-      <img class="guirlande guirlande--violet" src="assets/img/bouquet-violet.webp?v=9" width="900" height="590" alt="" loading="lazy">
+      <img class="guirlande guirlande--violet" src="assets/img/bouquet-violet.webp?v=10" width="900" height="590" alt="" loading="lazy">
     </div>
   </details>
 
@@ -434,7 +452,7 @@
       </div>
 
       <div class="etape etape--1">
-        <img src="assets/img/eglise.webp?v=9" width="394" height="348" alt="L'église São Martinho de Cucujães, façade d'azulejos bleus" loading="lazy">
+        <img src="assets/img/eglise.webp?v=10" width="394" height="348" alt="L'église São Martinho de Cucujães, façade d'azulejos bleus" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">13h30</span>
           <span class="etape__titre">Cérémonie</span>
@@ -447,7 +465,7 @@
       <svg class="chemin chemin--1" viewBox="0 0 70 74" aria-hidden="true"><path d="M20 2 C 60 18, 4 40, 46 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".8"/></svg>
 
       <div class="etape etape--2">
-        <img src="assets/img/diner.webp?v=9" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
+        <img src="assets/img/diner.webp?v=10" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">puis</span>
           <span class="etape__titre">Cocktail et dîner</span>
@@ -464,7 +482,7 @@
         <p>Face à l’océan pour prolonger la fête</p>
       </div>
       <div class="etape etape--3">
-        <img src="assets/img/set-lounge.webp?v=9" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
+        <img src="assets/img/set-lounge.webp?v=10" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">14h30</span>
           <span class="etape__titre">Brunch et soirée</span>
@@ -485,16 +503,16 @@
       <section class="info">
         <svg class="info__icone" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 23 L24 8 L42 23"/><path d="M11 19 V40 H37 V19"/><path d="M20 40 V29 H28 V40"/><path d="M33 12.5 V8 H37 V16"/></svg>
         <h3>Idées logements</h3>
-        <p>Des logements dans la région du mariage, pour vos idées et réservations.</p>
+        <p class="equilibre">Des logements dans la région du mariage, pour vos idées et&nbsp;réservations.</p>
         <p class="note">Nos suggestions arrivent bientôt.</p>
       </section>
       <section class="info">
         <svg class="info__icone" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="8"/><path d="M24 6 V11 M24 37 V42 M6 24 H11 M37 24 H42 M11.3 11.3 L14.8 14.8 M33.2 33.2 L36.7 36.7 M11.3 36.7 L14.8 33.2 M33.2 14.8 L36.7 11.3"/></svg>
         <h3>Le climat</h3>
         <p class="info__accroche">Fin d’été, doux et ensoleillé</p>
-        <p>Prévoyez une petite laine pour les soirées…</p>
+        <p class="equilibre">Prévoyez une petite laine pour les soirées…</p>
       </section>
-      <img class="guirlande guirlande--tournesols" src="assets/img/tournesols.webp?v=9" width="688" height="223" alt="" loading="lazy">
+      <img class="guirlande guirlande--tournesols" src="assets/img/tournesols.webp?v=10" width="688" height="223" alt="" loading="lazy">
     </div>
   </details>
 
@@ -513,7 +531,7 @@
   <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <footer class="pied">
-    <img src="assets/img/porto.webp?v=9" width="1600" height="895" alt="Porto au bord du Douro : les maisons colorées, le pont Dom-Luís, un bateau et un bouquet de tournesols" loading="lazy">
+    <img src="assets/img/porto.webp?v=10" width="1600" height="895" alt="Porto au bord du Douro : les maisons colorées, le pont Dom-Luís, un bateau et un bouquet de tournesols" loading="lazy">
   </footer>
 </main>
 
@@ -582,6 +600,17 @@
     const msg = document.getElementById("message");
     const bouton = form.querySelector(".envoyer");
     function dire(texte, type) { msg.textContent = texte; msg.className = "message" + (type ? " message--" + type : ""); }
+    // « Je ne peux pas venir » désactive les jours et la dégustation
+    const caseAbsent = document.getElementById("absent");
+    const liees = ["j5", "j6", "degustation"].map(function (n) { return form.elements[n]; });
+    function majAbsence() {
+      liees.forEach(function (c) {
+        if (caseAbsent.checked) c.checked = false;
+        c.disabled = caseAbsent.checked;
+        c.closest(".case").classList.toggle("inactive", caseAbsent.checked);
+      });
+    }
+    caseAbsent.addEventListener("change", majAbsence);
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -589,20 +618,23 @@
       const prenom = (d.get("prenom") || "").trim();
       const nom = (d.get("nom") || "").trim();
       if (!prenom || !nom) { dire("Indiquez votre prénom et votre nom.", "erreur"); (prenom ? form.nom : form.prenom).focus(); return; }
-      if (!d.get("j5") && !d.get("j6")) { dire("Cochez au moins un des deux jours.", "erreur"); return; }
+      const absent = !!d.get("absent");
+      if (!absent && !d.get("j5") && !d.get("j6")) { dire("Cochez au moins un des deux jours, ou « Je ne peux pas venir ».", "erreur"); return; }
       if (d.get("site")) { return; }
       if (!RSVP_URL) { dire("Le formulaire sera actif très bientôt. Merci de revenir un peu plus tard.", "erreur"); return; }
 
       const donnees = new URLSearchParams({
         prenom: prenom, nom: nom,
-        j5: d.get("j5") ? "oui" : "", j6: d.get("j6") ? "oui" : "",
-        vege: d.get("vege") ? "oui" : "", degustation: d.get("degustation") ? "oui" : ""
+        j5: !absent && d.get("j5") ? "oui" : "", j6: !absent && d.get("j6") ? "oui" : "",
+        vege: d.get("vege") ? "oui" : "", degustation: !absent && d.get("degustation") ? "oui" : "",
+        absent: absent ? "oui" : "", remarques: (d.get("remarques") || "").trim().slice(0, 500)
       });
       bouton.disabled = true; dire("Envoi en cours…");
       try {
         await fetch(RSVP_URL, { method: "POST", mode: "no-cors", body: donnees });
-        form.reset();
-        dire("Merci " + prenom + ", votre réponse est bien enregistrée.", "ok");
+        form.reset(); majAbsence();
+        dire(absent ? "Merci " + prenom + ", nous avons bien noté que vous ne pourrez pas venir. Vous nous manquerez !"
+                    : "Merci " + prenom + ", votre réponse est bien enregistrée.", "ok");
       } catch (err) {
         dire("La réponse n’est pas partie. Vérifiez votre connexion et réessayez.", "erreur");
       } finally {
