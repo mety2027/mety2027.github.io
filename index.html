@@ -11,18 +11,18 @@
 <meta property="og:url" content="https://mety2027.com/">
 <meta name="theme-color" content="#FBF3E4">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<link rel="icon" type="image/png" href="favicon.png?v=10">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=10">
-<link rel="preload" href="assets/fonts/pinyon.woff2?v=10" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/cormorant.woff2?v=10" as="font" type="font/woff2" crossorigin>
+<link rel="icon" type="image/png" href="favicon.png?v=12">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=12">
+<link rel="preload" href="assets/fonts/pinyon.woff2?v=12" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cormorant.woff2?v=12" as="font" type="font/woff2" crossorigin>
 <script>
   document.documentElement.classList.add("js");
   try { if (sessionStorage.getItem("enveloppe-ouverte")) document.documentElement.classList.add("deja-ouverte"); } catch (e) {}
 </script>
 <style>
-  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant.woff2?v=10") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
-  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant-italic.woff2?v=10") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
-  @font-face { font-family: "Pinyon"; src: url("assets/fonts/pinyon.woff2?v=10") format("woff2"); font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant.woff2?v=12") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant-italic.woff2?v=12") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+  @font-face { font-family: "Pinyon"; src: url("assets/fonts/pinyon.woff2?v=12") format("woff2"); font-display: swap; }
 
   :root {
     color-scheme: light;
@@ -314,6 +314,20 @@
   .ouvert .env__lettre { transform: translateY(-58%); }
   .ouvert .indice { opacity: 0; transition: opacity .3s ease; }
 
+  /* ---------- Bouton musique ---------- */
+  .son {
+    position: fixed; z-index: 40; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom));
+    width: 46px; height: 46px; padding: 0; border-radius: 50%; cursor: pointer;
+    display: grid; place-items: center;
+    background: var(--papier); border: 2px solid var(--orange-cadre); box-shadow: 0 3px 10px rgba(120, 70, 20, .22);
+  }
+  .son[hidden] { display: none; }
+  .son svg { width: 22px; height: 22px; fill: none; stroke: var(--rose); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .son .son__off { display: none; }
+  .son[aria-pressed="false"] .son__on { display: none; }
+  .son[aria-pressed="false"] .son__off { display: block; }
+  .son:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+
   @media (prefers-reduced-motion: reduce) {
     .carte * { transition: none !important; }
     .rebours__valeur span.tic { animation: none; }
@@ -330,7 +344,7 @@
 <div class="ecran-enveloppe" id="ecran-enveloppe">
   <button class="enveloppe" id="ouvrir" type="button" aria-label="Ouvrir l’invitation de Marine et Yohan">
     <span class="env__fond" aria-hidden="true"></span>
-    <span class="env__lettre" aria-hidden="true"><img src="assets/img/monogramme.webp?v=10" alt=""><span class="lettre__noms">Marine et Yohan</span><span class="lettre__dates">05.09.27 &amp; 06.09.27</span></span>
+    <span class="env__lettre" aria-hidden="true"><img src="assets/img/monogramme.webp?v=12" alt=""><span class="lettre__noms">Marine et Yohan</span><span class="lettre__dates">05.09.27 &amp; 06.09.27</span></span>
     <svg class="env__poches" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0 0 L150 112 L0 200 Z" fill="#FBEBD0"/>
       <path d="M300 0 L150 112 L300 200 Z" fill="#F6E1C0"/>
@@ -358,6 +372,11 @@
   <p class="indice"><span class="indice__doigt">Touchez le sceau pour ouvrir l’invitation</span><span class="indice__souris">Cliquez sur le sceau pour ouvrir l’invitation</span></p>
 </div>
 
+<button class="son" id="bouton-son" type="button" aria-pressed="false" aria-label="Lancer la musique" hidden>
+  <svg class="son__on" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>
+  <svg class="son__off" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/><path d="M3 3l18 18"/></svg>
+</button>
+
 <main class="carte" id="contenu" tabindex="-1">
   <div class="cadre cadre--orange" aria-hidden="true"></div>
   <div class="cadre cadre--vert" aria-hidden="true"></div>
@@ -371,7 +390,7 @@
       <h1 class="ville">à Porto</h1>
       <p class="prenoms">Marine et Yohan</p>
     </div>
-    <img class="monogramme" src="assets/img/monogramme.webp?v=10" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
+    <img class="monogramme" src="assets/img/monogramme.webp?v=12" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
 
     <div class="entete__rebours rebours" id="rebours">
       <ul class="rebours__compteur" aria-hidden="true">
@@ -436,7 +455,7 @@
           <p class="message" id="message" role="status"></p>
         </div>
       </form>
-      <img class="guirlande guirlande--violet" src="assets/img/bouquet-violet.webp?v=10" width="900" height="590" alt="" loading="lazy">
+      <img class="guirlande guirlande--violet" src="assets/img/bouquet-violet.webp?v=12" width="900" height="590" alt="" loading="lazy">
     </div>
   </details>
 
@@ -452,7 +471,7 @@
       </div>
 
       <div class="etape etape--1">
-        <img src="assets/img/eglise.webp?v=10" width="394" height="348" alt="L'église São Martinho de Cucujães, façade d'azulejos bleus" loading="lazy">
+        <img src="assets/img/eglise.webp?v=12" width="394" height="348" alt="L'église São Martinho de Cucujães, façade d'azulejos bleus" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">13h30</span>
           <span class="etape__titre">Cérémonie</span>
@@ -465,7 +484,7 @@
       <svg class="chemin chemin--1" viewBox="0 0 70 74" aria-hidden="true"><path d="M20 2 C 60 18, 4 40, 46 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".8"/></svg>
 
       <div class="etape etape--2">
-        <img src="assets/img/diner.webp?v=10" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
+        <img src="assets/img/diner.webp?v=12" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">puis</span>
           <span class="etape__titre">Cocktail et dîner</span>
@@ -482,7 +501,7 @@
         <p>Face à l’océan pour prolonger la fête</p>
       </div>
       <div class="etape etape--3">
-        <img src="assets/img/set-lounge.webp?v=10" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
+        <img src="assets/img/set-lounge.webp?v=12" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">14h30</span>
           <span class="etape__titre">Brunch et soirée</span>
@@ -512,7 +531,7 @@
         <p class="info__accroche">Fin d’été, doux et ensoleillé</p>
         <p class="equilibre">Prévoyez une petite laine pour les soirées…</p>
       </section>
-      <img class="guirlande guirlande--tournesols" src="assets/img/tournesols.webp?v=10" width="688" height="223" alt="" loading="lazy">
+      <img class="guirlande guirlande--tournesols" src="assets/img/tournesols.webp?v=12" width="688" height="223" alt="" loading="lazy">
     </div>
   </details>
 
@@ -531,7 +550,7 @@
   <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <footer class="pied">
-    <img src="assets/img/porto.webp?v=10" width="1600" height="895" alt="Porto au bord du Douro : les maisons colorées, le pont Dom-Luís, un bateau et un bouquet de tournesols" loading="lazy">
+    <img src="assets/img/porto.webp?v=12" width="1600" height="895" alt="Porto au bord du Douro : les maisons colorées, le pont Dom-Luís, un bateau et un bouquet de tournesols" loading="lazy">
   </footer>
 </main>
 
@@ -539,6 +558,70 @@
   // ---------- Adresse du tableau Google qui reçoit les réponses ----------
   const RSVP_URL = "https://script.google.com/macros/s/AKfycbz3iJLwBavsX77NAgCJ97TwEl-o5brRazaTWCkO9C_QFkWLCV1q4n9cxfVqufCrA19j/exec";
 
+
+  // ---------- Musique : démarre à l'ouverture du sceau, bouton pour couper / relancer ----------
+  // Boucle sans coupure (Web Audio) sur les passages lumineux d'« Atlas • Portugal » (Vadim_Makes_Sound, licence Pixabay)
+  window.musique = (function () {
+    const SRC = "assets/audio/atlas-portugal-gai.mp3?v=12";
+    const BOUCLE_DEBUT = 2.36, BOUCLE_FIN = 80.71;
+    const VOLUME = 0.35;
+    const bouton = document.getElementById("bouton-son");
+    const AC = window.AudioContext || window.webkitAudioContext;
+    let ctx = null, gain = null, source = null, tampon = null, octets = null, voulu = false, secours = null;
+
+    // le fichier est téléchargé discrètement dès l'arrivée sur la page
+    const telechargement = fetch(SRC).then(function (r) { return r.arrayBuffer(); }).then(function (b) { octets = b; return b; }).catch(function () {});
+
+    function etat(joue) {
+      bouton.setAttribute("aria-pressed", joue ? "true" : "false");
+      bouton.setAttribute("aria-label", joue ? "Couper la musique" : "Lancer la musique");
+    }
+    function decoder() {
+      if (tampon) return Promise.resolve(tampon);
+      return telechargement.then(function () {
+        return new Promise(function (ok, ko) { ctx.decodeAudioData(octets.slice(0), ok, ko); });
+      }).then(function (t) { tampon = t; return t; });
+    }
+    function lancerSecours() {                       // navigateurs sans Web Audio
+      if (!secours) { secours = new Audio(SRC); secours.loop = true; secours.volume = VOLUME; }
+      secours.play().catch(function () { voulu = false; etat(false); });
+    }
+    function lancer() {
+      voulu = true; etat(true);
+      if (!AC) { lancerSecours(); return; }
+      if (!ctx) { ctx = new AC(); gain = ctx.createGain(); gain.gain.value = 0; gain.connect(ctx.destination); }
+      ctx.resume();
+      decoder().then(function (t) {
+        if (!voulu) return;
+        if (!source) {
+          source = ctx.createBufferSource(); source.buffer = t;
+          source.loop = true; source.loopStart = BOUCLE_DEBUT; source.loopEnd = BOUCLE_FIN;
+          source.connect(gain); source.start();
+        }
+        const n = ctx.currentTime;
+        gain.gain.cancelScheduledValues(n); gain.gain.setValueAtTime(gain.gain.value, n);
+        gain.gain.linearRampToValueAtTime(VOLUME, n + 2.5);
+      }).catch(function () { lancerSecours(); });
+    }
+    function couper() {
+      voulu = false; etat(false);
+      if (secours) secours.pause();
+      if (!ctx) return;
+      const n = ctx.currentTime;
+      gain.gain.cancelScheduledValues(n); gain.gain.setValueAtTime(gain.gain.value, n);
+      gain.gain.linearRampToValueAtTime(0, n + 0.6);
+      setTimeout(function () { if (!voulu) ctx.suspend(); }, 700);
+    }
+    bouton.hidden = false; etat(false);
+    bouton.addEventListener("click", function () { voulu ? couper() : lancer(); });
+    // pause quand l'onglet est caché, reprise au retour
+    document.addEventListener("visibilitychange", function () {
+      if (!voulu) return;
+      if (document.hidden) { if (ctx) ctx.suspend(); if (secours) secours.pause(); }
+      else { if (ctx) ctx.resume(); if (secours) secours.play().catch(function () {}); }
+    });
+    return { lancer: lancer };
+  })();
 
   // ---------- Enveloppe d'ouverture ----------
   (function () {
@@ -548,6 +631,7 @@
     function ouvrir() {
       if (ecran.classList.contains("ouvert")) return;
       ecran.classList.add("ouvert");
+      if (window.musique) window.musique.lancer();
       try { sessionStorage.setItem("enveloppe-ouverte", "1"); } catch (e) {}
       const duree = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 450 : 3050;
       setTimeout(function () { ecran.remove(); document.getElementById("contenu").focus({ preventScroll: true }); }, duree);
