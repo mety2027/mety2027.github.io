@@ -27,7 +27,6 @@
     --vert: #6C6F3E;
     --vert-cadre: #7D8447;
     --rose: #BF3D6C;
-    --or: #B38A3A;
     --encre: #5E5845;
     --encre-douce: #7C7562;
     --chemin: #D9CB8F;
@@ -41,15 +40,14 @@
   }
 
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     min-height: 100vh;
-    padding: max(16px, env(safe-area-inset-top)) clamp(12px, 4vw, 48px) max(16px, env(safe-area-inset-bottom));
+    /* bordure « nappe » : environ 1 à 1,5 cm sur ordinateur, quelques millimètres sur téléphone */
+    padding: max(clamp(12px, 3vw, 52px), env(safe-area-inset-top)) clamp(12px, 3vw, 52px) max(clamp(12px, 3vw, 52px), env(safe-area-inset-bottom));
     background-color: #FBF2E7;
-    background-image:
-      repeating-linear-gradient(90deg, var(--bandes)),
-      repeating-linear-gradient(0deg, var(--bandes));
+    background-image: repeating-linear-gradient(90deg, var(--bandes)), repeating-linear-gradient(0deg, var(--bandes));
     font-family: var(--serif);
     font-size: 1.15rem;
     line-height: 1.5;
@@ -58,17 +56,17 @@
 
   /* ---------- La carte ---------- */
   .carte {
+    --pad: clamp(26px, 5vw, 84px);
     position: relative;
-    max-width: 640px;
-    margin: 0 auto;
-    --pad: clamp(26px, 7vw, 56px);
-    padding: 46px var(--pad) 0;
+    min-height: calc(100vh - 2 * clamp(12px, 3vw, 52px));
+    padding: 44px var(--pad) 0;
     background-color: var(--papier);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
     box-shadow: 0 1px 2px rgba(90, 60, 30, .10), 0 10px 40px rgba(90, 60, 30, .14);
     text-align: center;
+    display: flex;
+    flex-direction: column;
   }
-  /* double filet du recto : orange dehors, vert dedans, tracé à la main */
   .cadre { position: absolute; pointer-events: none; filter: url(#trait); }
   .cadre--orange { inset: 9px; border: 2px solid var(--orange-cadre); border-radius: 3px; }
   .cadre--vert { inset: 17px; border: 2px solid var(--vert-cadre); border-radius: 2px; }
@@ -76,72 +74,59 @@
   .boucle--hg { top: 3px; left: 3px; } .boucle--hd { top: 3px; right: 3px; }
   .boucle--bg { bottom: 3px; left: 3px; } .boucle--bd { bottom: 3px; right: 3px; }
 
-  /* ---------- Compte à rebours ---------- */
-  .rebours { margin: 0 0 6px; }
-  .rebours__avant, .rebours__apres { display: block; font-style: italic; color: var(--encre-douce); font-size: 1.1rem; }
-  .rebours__nombre {
-    display: block;
-    font-weight: 500;
-    font-size: clamp(3.4rem, 15vw, 4.6rem);
-    line-height: 1;
-    letter-spacing: .04em;
-    color: var(--orange);
-    font-variant-numeric: lining-nums;
-    margin: 4px 0 2px;
-  }
-
-  /* ---------- En-tête du recto ---------- */
-  .monogramme { display: block; width: min(210px, 52%); height: auto; margin: 26px auto 18px; }
+  /* ---------- En-tête : compte à rebours, monogramme, dates ---------- */
+  .entete { display: grid; justify-items: center; gap: 0; margin-bottom: 28px; }
+  .entete__rebours { order: 1; }
+  .monogramme { order: 2; display: block; width: min(200px, 50%); height: auto; margin: 22px auto 16px; }
+  .entete__titre { order: 3; }
   .dates { margin: 0; font-size: clamp(1.35rem, 5.4vw, 1.75rem); letter-spacing: .1em; color: var(--orange); font-variant-numeric: lining-nums; }
-  .ville { margin: 0 0 30px; font-family: var(--script); font-weight: 400; font-size: clamp(2.6rem, 11vw, 3.4rem); line-height: 1.25; color: var(--vert); }
+  .ville { margin: 0; font-family: var(--script); font-weight: 400; font-size: clamp(2.6rem, 11vw, 3.6rem); line-height: 1.25; color: var(--vert); }
+
+  .rebours { margin: 0; }
+  .rebours__compteur { display: flex; justify-content: center; gap: clamp(10px, 3.5vw, 22px); margin: 0; padding: 0; list-style: none; }
+  .rebours__unite { display: grid; justify-items: center; min-width: 3.1ch; }
+  .rebours__valeur {
+    display: block; height: 1.05em; overflow: hidden;
+    font-weight: 500; font-size: clamp(2.3rem, 10vw, 3.3rem); line-height: 1.05;
+    color: var(--orange); font-variant-numeric: lining-nums tabular-nums;
+  }
+  .rebours__valeur span { display: block; }
+  .rebours__valeur span.tic { animation: defile .45s cubic-bezier(.2, .7, .3, 1); }
+  @keyframes defile { from { transform: translateY(-70%); opacity: 0; } to { transform: none; opacity: 1; } }
+  .rebours__label { font-style: italic; font-size: 1rem; color: var(--encre-douce); }
+  .rebours__legende { margin: 8px 0 0; font-style: italic; font-size: 1.05rem; color: var(--encre-douce); }
+  .rebours__fini { font-family: var(--script); font-size: 2.4rem; color: var(--orange); }
 
   /* ---------- Menu déroulant ---------- */
   .filet { display: block; width: 100%; height: 14px; color: var(--rose); }
   details { text-align: center; }
   summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 18px 8px 16px;
-    font-family: var(--script);
-    font-size: clamp(1.9rem, 7.6vw, 2.35rem);
-    line-height: 1.2;
-    color: var(--rose);
-    border-radius: 6px;
+    list-style: none; cursor: pointer; padding: 18px 8px 16px;
+    font-family: var(--script); font-size: clamp(1.9rem, 7.6vw, 2.4rem); line-height: 1.2;
+    color: var(--rose); border-radius: 6px;
   }
   summary::-webkit-details-marker { display: none; }
   summary::after {
-    content: "";
-    display: block;
-    width: 10px; height: 10px;
-    margin: 6px auto 0;
-    border-right: 1.5px solid var(--rose);
-    border-bottom: 1.5px solid var(--rose);
-    transform: rotate(45deg);
-    transition: transform .25s ease;
+    content: ""; display: block; width: 10px; height: 10px; margin: 6px auto 0;
+    border-right: 1.5px solid var(--rose); border-bottom: 1.5px solid var(--rose);
+    transform: rotate(45deg); transition: transform .25s ease;
   }
   details[open] > summary::after { transform: rotate(-135deg); margin-top: 12px; }
   summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-  .volet { padding: 4px 0 34px; }
-  .volet p { margin: 0 auto 1em; max-width: 30em; }
+  .volet { padding: 4px 0 36px; }
+  .volet p { margin: 0 auto 1em; max-width: 34em; }
   .note { font-style: italic; color: var(--encre-douce); font-size: 1.02rem; }
 
   /* ---------- Formulaire ---------- */
-  form { max-width: 26em; margin: 0 auto; text-align: left; }
+  form { max-width: 27em; margin: 0 auto; text-align: left; }
   .champ { margin-bottom: 16px; }
   .champ label { display: block; font-style: italic; color: var(--encre-douce); font-size: 1rem; }
   .champ input {
-    width: 100%;
-    padding: 6px 2px 5px;
-    border: 0;
-    border-bottom: 1.5px solid #CDB89A;
-    background: transparent;
-    font: inherit;
-    font-size: 1.25rem;
-    color: var(--encre);
-    border-radius: 0;
+    width: 100%; padding: 6px 2px 5px; border: 0; border-bottom: 1.5px solid #CDB89A; border-radius: 0;
+    background: transparent; font: inherit; font-size: 1.25rem; color: var(--encre);
   }
   .champ input:focus { outline: none; border-bottom-color: var(--orange); }
-  fieldset { border: 0; margin: 22px 0 0; padding: 0; }
+  fieldset { border: 0; margin: 22px 0 0; padding: 0; min-width: 0; }
   legend { font-family: var(--script); font-size: 1.7rem; color: var(--vert); padding: 0; margin-bottom: 6px; }
   .case { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; cursor: pointer; }
   .case input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -154,20 +139,13 @@
   .case input:checked + .case__boite { background: var(--orange-cadre); }
   .case input:checked + .case__boite::after { opacity: 1; }
   .case input:focus-visible + .case__boite { outline: 2px solid var(--vert); outline-offset: 2px; }
-  .case small { display: block; font-style: italic; color: var(--encre-douce); font-size: .98rem; }
+  .case em { color: var(--encre-douce); }
   .piege { position: absolute; left: -9999px; }
+  .form__bas { grid-column: 1 / -1; }
   .envoyer {
-    display: block;
-    margin: 28px auto 0;
-    padding: 11px 30px 12px;
-    border: 1.5px solid var(--rose);
-    border-radius: 999px;
-    background: var(--rose);
-    color: #fff;
-    font: inherit;
-    font-size: 1.2rem;
-    letter-spacing: .02em;
-    cursor: pointer;
+    display: block; margin: 28px auto 0; padding: 11px 30px 12px;
+    border: 1.5px solid var(--rose); border-radius: 999px; background: var(--rose); color: #fff;
+    font: inherit; font-size: 1.2rem; letter-spacing: .02em; cursor: pointer;
   }
   .envoyer:hover { background: #A9305B; border-color: #A9305B; }
   .envoyer:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
@@ -177,8 +155,9 @@
   .message--ok { color: var(--vert); font-size: 1.25rem; }
 
   /* ---------- Déroulé ---------- */
+  .deroule { display: grid; justify-items: center; }
   .jour { margin: 6px 0 4px; font-family: var(--script); font-weight: 400; font-size: clamp(1.65rem, 6.6vw, 2.3rem); line-height: 1.25; color: var(--vert); }
-  .etape { display: grid; gap: 6px; justify-items: center; margin: 0 0 8px; }
+  .etape { display: grid; gap: 6px; justify-items: center; margin: 0 0 6px; }
   .etape img { width: min(300px, 88%); height: auto; }
   .etape__heure { display: block; font-size: 1.2rem; letter-spacing: .06em; color: var(--encre-douce); font-variant-numeric: lining-nums; }
   .etape__titre { display: block; font-family: var(--script); font-size: 2rem; line-height: 1.2; color: var(--rose); }
@@ -188,20 +167,56 @@
   .itineraire:hover { color: var(--rose); }
   .itineraire:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 2px; }
   .chemin { display: block; width: 70px; height: 74px; margin: 2px auto; color: var(--chemin); }
-  @media (min-width: 620px) {
-    .etape { grid-template-columns: 1fr 1fr; align-items: center; gap: 18px; text-align: left; justify-items: stretch; }
-    .etape img { width: 100%; }
-    .etape--inverse .etape__texte { order: -1; text-align: right; }
-  }
 
   /* ---------- Logements ---------- */
-  .maisons { display: block; width: min(300px, 86%); height: auto; margin: 6px auto 14px; }
+  .logements { display: grid; justify-items: center; }
+  .maison { display: block; width: min(320px, 86%); height: auto; margin: 6px auto 14px; }
 
   /* ---------- Bas de page ---------- */
-  .pied { margin: 6px calc(21px - var(--pad)) 0; padding-bottom: 19px; }
-  .pied img { display: block; width: 100%; height: auto; }
+  .pied { margin: auto calc(21px - var(--pad)) 0; padding: 10px 0 19px; }
+  .pied img { display: block; width: 100%; max-width: 1000px; height: auto; margin: 0 auto; }
 
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  /* ================= Ordinateur : mise en page paysage ================= */
+  @media (min-width: 900px) {
+    body { font-size: 1.2rem; }
+    .entete {
+      grid-template-columns: 1fr auto 1fr; align-items: center; gap: 3vw;
+      margin: 10px 0 34px;
+    }
+    .entete__titre { order: 1; }
+    .monogramme { order: 2; width: clamp(170px, 15vw, 230px); margin: 0; }
+    .entete__rebours { order: 3; }
+    .dates { font-size: clamp(1.6rem, 2.2vw, 2.1rem); }
+    .ville { font-size: clamp(3.4rem, 4.6vw, 4.6rem); }
+    .rebours__valeur { font-size: clamp(2.6rem, 3.6vw, 3.6rem); }
+
+    summary { font-size: clamp(2.2rem, 2.6vw, 2.8rem); padding: 16px 8px 14px; }
+
+    form { max-width: 980px; display: grid; grid-template-columns: 1fr 1.35fr; column-gap: 7%; align-items: start; }
+    form fieldset:first-of-type { margin-top: 0; }
+    .form__colonne fieldset + fieldset { margin-top: 18px; }
+
+    .deroule {
+      max-width: 1400px; margin: 0 auto;
+      grid-template-columns: 1fr 70px 1fr 70px 1fr;
+      grid-template-areas: "j1 j1 j1 . j2" "e1 c1 e2 c2 e3";
+      align-items: start; column-gap: 0;
+    }
+    .jour--1 { grid-area: j1; } .jour--2 { grid-area: j2; }
+    .etape--1 { grid-area: e1; } .etape--2 { grid-area: e2; } .etape--3 { grid-area: e3; }
+    .chemin--1 { grid-area: c1; } .chemin--2 { grid-area: c2; }
+    .etape img { width: 100%; max-width: 340px; aspect-ratio: 4 / 3.3; object-fit: contain; }
+    .chemin { align-self: center; margin-top: -60px; transform: rotate(-90deg); }
+
+    .logements { grid-template-columns: auto minmax(0, 30em); justify-content: center; align-items: center; column-gap: 40px; text-align: left; }
+    .logements .maison { width: 360px; margin: 0; }
+    .logements p { margin-left: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    .rebours__valeur span.tic { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -215,17 +230,27 @@
   <span class="boucle boucle--hg" aria-hidden="true"></span><span class="boucle boucle--hd" aria-hidden="true"></span>
   <span class="boucle boucle--bg" aria-hidden="true"></span><span class="boucle boucle--bd" aria-hidden="true"></span>
 
-  <p class="rebours" id="rebours" aria-live="polite">
-    <span class="rebours__avant">Plus que</span>
-    <span class="rebours__nombre" id="rebours-nombre">—</span>
-    <span class="rebours__apres" id="rebours-apres">jours avant le 5 septembre 2027</span>
-  </p>
+  <header class="entete">
+    <div class="entete__rebours rebours" id="rebours">
+      <ul class="rebours__compteur" aria-hidden="true">
+        <li class="rebours__unite"><span class="rebours__valeur"><span id="r-j">–</span></span><span class="rebours__label" id="l-j">jours</span></li>
+        <li class="rebours__unite"><span class="rebours__valeur"><span id="r-h">–</span></span><span class="rebours__label" id="l-h">heures</span></li>
+        <li class="rebours__unite"><span class="rebours__valeur"><span id="r-m">–</span></span><span class="rebours__label" id="l-m">minutes</span></li>
+        <li class="rebours__unite"><span class="rebours__valeur"><span id="r-s">–</span></span><span class="rebours__label" id="l-s">secondes</span></li>
+      </ul>
+      <p class="rebours__legende" id="rebours-legende">avant le 5 septembre 2027, 13h30</p>
+      <p class="sr-only" id="rebours-lecteur" style="position:absolute;left:-9999px"></p>
+    </div>
 
-  <img class="monogramme" src="assets/img/monogramme.webp" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
-  <p class="dates">05.09.27 &amp; 06.09.27</p>
-  <h1 class="ville">Porto</h1>
+    <img class="monogramme" src="assets/img/monogramme.webp" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
 
-  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 120 3, 260 12, 380 6 S 540 5, 598 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <div class="entete__titre">
+      <p class="dates">05.09.27 &amp; 06.09.27</p>
+      <h1 class="ville">Porto</h1>
+    </div>
+  </header>
+
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 120 3, 260 12, 380 6 S 540 5, 598 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <!-- 1. Réponse -->
   <details id="reponse">
@@ -233,42 +258,48 @@
     <div class="volet">
       <p class="note">Une réponse par personne : si vous venez à deux, remplissez le formulaire deux fois.</p>
       <form id="form-reponse" novalidate>
-        <div class="champ">
-          <label for="prenom">Prénom</label>
-          <input id="prenom" name="prenom" type="text" autocomplete="given-name" required>
+        <div class="form__colonne">
+          <div class="champ">
+            <label for="prenom">Prénom</label>
+            <input id="prenom" name="prenom" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="champ">
+            <label for="nom">Nom</label>
+            <input id="nom" name="nom" type="text" autocomplete="family-name" required>
+          </div>
+          <input class="piege" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
-        <div class="champ">
-          <label for="nom">Nom</label>
-          <input id="nom" name="nom" type="text" autocomplete="family-name" required>
+
+        <div class="form__colonne">
+          <fieldset>
+            <legend>Je serai là</legend>
+            <label class="case"><input type="checkbox" name="j5" value="oui"><span class="case__boite"></span><span>Le dimanche 5 septembre</span></label>
+            <label class="case"><input type="checkbox" name="j6" value="oui"><span class="case__boite"></span><span>Le lundi 6 septembre</span></label>
+          </fieldset>
+          <fieldset>
+            <legend>À savoir</legend>
+            <label class="case"><input type="checkbox" name="vege" value="oui"><span class="case__boite"></span><span>Je mange végétarien</span></label>
+            <label class="case"><input type="checkbox" name="degustation" value="oui"><span class="case__boite"></span><span>Je suis intéressé(e) par la dégustation de vin de Porto le mardi 7 septembre <em>(Informations à venir)</em></span></label>
+          </fieldset>
         </div>
-        <input class="piege" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-        <fieldset>
-          <legend>Je serai là</legend>
-          <label class="case"><input type="checkbox" name="j5" value="oui"><span class="case__boite"></span><span>le dimanche 5 septembre</span></label>
-          <label class="case"><input type="checkbox" name="j6" value="oui"><span class="case__boite"></span><span>le lundi 6 septembre</span></label>
-        </fieldset>
-        <fieldset>
-          <legend>À savoir</legend>
-          <label class="case"><input type="checkbox" name="vege" value="oui"><span class="case__boite"></span><span>Je mange végétarien</span></label>
-          <label class="case"><input type="checkbox" name="degustation" value="oui"><span class="case__boite"></span><span>Je suis intéressé(e) par la dégustation en cave de Porto le mardi 7 septembre<small>Informations à venir</small></span></label>
-        </fieldset>
-
-        <button class="envoyer" type="submit">Envoyer ma réponse</button>
-        <p class="message" id="message" role="status"></p>
+        <div class="form__bas">
+          <button class="envoyer" type="submit">Envoyer ma réponse</button>
+          <p class="message" id="message" role="status"></p>
+        </div>
       </form>
     </div>
   </details>
 
-  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <!-- 2. Déroulé -->
   <details id="deroule">
     <summary>Déroulé du mariage</summary>
-    <div class="volet">
-      <h2 class="jour">Dimanche 5 septembre 2027</h2>
+    <div class="volet deroule">
+      <h2 class="jour jour--1">Dimanche 5 septembre 2027</h2>
 
-      <div class="etape">
+      <div class="etape etape--1">
         <img src="assets/img/eglise.webp" width="394" height="348" alt="L'église São Martinho de Cucujães, façade d'azulejos bleus" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">13h30</span>
@@ -279,9 +310,9 @@
         </div>
       </div>
 
-      <svg class="chemin" viewBox="0 0 70 74" aria-hidden="true"><path d="M20 2 C 60 18, 4 40, 46 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".75"/></svg>
+      <svg class="chemin chemin--1" viewBox="0 0 70 74" aria-hidden="true"><path d="M20 2 C 60 18, 4 40, 46 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".75"/></svg>
 
-      <div class="etape etape--inverse">
+      <div class="etape etape--2">
         <img src="assets/img/diner.webp" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">puis</span>
@@ -292,10 +323,10 @@
         </div>
       </div>
 
-      <svg class="chemin" viewBox="0 0 70 74" aria-hidden="true"><path d="M46 2 C 6 22, 66 44, 24 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".75"/></svg>
+      <svg class="chemin chemin--2" viewBox="0 0 70 74" aria-hidden="true"><path d="M46 2 C 6 22, 66 44, 24 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".75"/></svg>
 
-      <h2 class="jour">Lundi 6 septembre 2027</h2>
-      <div class="etape">
+      <h2 class="jour jour--2">Lundi 6 septembre 2027</h2>
+      <div class="etape etape--3">
         <img src="assets/img/set-lounge.webp" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">14h30</span>
@@ -308,19 +339,21 @@
     </div>
   </details>
 
-  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 110 4, 240 11, 350 6 S 530 4, 598 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 110 4, 240 11, 350 6 S 530 4, 598 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <!-- 3. Logements -->
   <details id="logements">
     <summary>Idées logements</summary>
-    <div class="volet">
-      <img class="maisons" src="assets/img/maisons.webp" width="330" height="198" alt="Maisons colorées du quartier de la Ribeira, à Porto" loading="lazy">
-      <p>À visée informative, des logements dans la région du mariage pour vos idées et réservations.</p>
-      <p class="note">Nos suggestions arrivent bientôt.</p>
+    <div class="volet logements">
+      <img class="maison" src="assets/img/maisons.webp" width="330" height="198" alt="Maisons colorées de la région de Porto" loading="lazy">
+      <div>
+        <p>À visée informative, des logements dans la région du mariage pour vos idées et réservations.</p>
+        <p class="note">Nos suggestions arrivent bientôt.</p>
+      </div>
     </div>
   </details>
 
-  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <footer class="pied">
     <img src="assets/img/porto.webp" width="755" height="282" alt="Porto vu depuis le Douro : la Ribeira, le pont Dom-Luís et un bateau rabelo" loading="lazy">
@@ -331,18 +364,42 @@
   // ---------- Adresse du tableau Google qui reçoit les réponses ----------
   const RSVP_URL = "";
 
-  // ---------- Compte à rebours (en jours, heure de Porto) ----------
+  // ---------- Compte à rebours jusqu'à la cérémonie : 5 septembre 2027, 13h30 à Porto (UTC+1) ----------
   (function () {
-    const nombre = document.getElementById("rebours-nombre");
-    const avant = document.querySelector(".rebours__avant");
-    const apres = document.getElementById("rebours-apres");
-    const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()).split("-");
-    const aujourdhui = Date.UTC(+parts[0], +parts[1] - 1, +parts[2]);
-    const jours = Math.round((Date.UTC(2027, 8, 5) - aujourdhui) / 86400000);
-    if (jours > 1) { nombre.textContent = jours; }
-    else if (jours === 1) { avant.textContent = "Plus qu’"; nombre.textContent = "1"; apres.textContent = "jour avant le 5 septembre 2027"; }
-    else if (jours === 0 || jours === -1) { avant.textContent = ""; nombre.textContent = "C’est le grand jour"; nombre.style.fontSize = "2.4rem"; apres.textContent = "Bienvenue à Porto"; }
-    else { avant.textContent = ""; nombre.textContent = "Merci"; apres.textContent = "d’avoir partagé ces jours avec nous"; }
+    const CIBLE = Date.UTC(2027, 8, 5, 12, 30, 0);
+    const el = { j: "r-j", h: "r-h", m: "r-m", s: "r-s" };
+    const lab = { j: ["jour", "jours"], h: ["heure", "heures"], m: ["minute", "minutes"], s: ["seconde", "secondes"] };
+    Object.keys(el).forEach(function (k) { el[k] = document.getElementById(el[k]); });
+    const lecteur = document.getElementById("rebours-lecteur");
+    let precedent = {};
+
+    function poser(k, valeur, pad) {
+      const texte = pad ? String(valeur).padStart(2, "0") : String(valeur);
+      if (precedent[k] === texte) return;
+      precedent[k] = texte;
+      el[k].textContent = texte;
+      el[k].classList.remove("tic"); void el[k].offsetWidth; el[k].classList.add("tic");
+      document.getElementById("l-" + k).textContent = valeur > 1 ? lab[k][1] : lab[k][0];
+    }
+
+    function fini() {
+      const r = document.getElementById("rebours");
+      const fete = Date.now() < CIBLE + 2 * 86400000;
+      r.innerHTML = '<p class="rebours__fini">' + (fete ? "C’est le grand jour" : "Merci") + '</p><p class="rebours__legende">' +
+        (fete ? "Bienvenue à Porto" : "d’avoir partagé ces jours avec nous") + "</p>";
+    }
+
+    function tic() {
+      let reste = Math.floor((CIBLE - Date.now()) / 1000);
+      if (reste <= 0) { clearInterval(minuteur); fini(); return; }
+      const j = Math.floor(reste / 86400); reste -= j * 86400;
+      const h = Math.floor(reste / 3600); reste -= h * 3600;
+      const m = Math.floor(reste / 60); const s = reste - m * 60;
+      poser("j", j, false); poser("h", h, true); poser("m", m, true); poser("s", s, true);
+      if (s === 0 || !lecteur.textContent) lecteur.textContent = j + " jours, " + h + " heures et " + m + " minutes avant la cérémonie";
+    }
+    const minuteur = setInterval(tic, 1000);
+    tic();
   })();
 
   // ---------- Formulaire de réponse ----------
