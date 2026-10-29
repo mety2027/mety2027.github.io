@@ -156,6 +156,7 @@
   .champ textarea:focus { outline: none; border-color: var(--orange); }
   .ou { margin: 2px 0 2px 34px !important; font-style: italic; color: var(--encre-douce); font-size: 1rem; }
   .case.inactive { opacity: .4; cursor: default; }
+  fieldset.inactive legend { opacity: .4; }
   .champ input:focus { outline: none; border-bottom-color: var(--orange); }
   fieldset { border: 0; margin: 22px 0 0; padding: 0; min-width: 0; }
   legend { font-family: var(--script); font-size: 1.7rem; color: var(--vert-clair); padding: 0; margin-bottom: 6px; }
@@ -599,15 +600,16 @@
     const msg = document.getElementById("message");
     const bouton = form.querySelector(".envoyer");
     function dire(texte, type) { msg.textContent = texte; msg.className = "message" + (type ? " message--" + type : ""); }
-    // « Je ne peux pas venir » désactive les jours et la dégustation
+    // « Je ne peux pas venir » désactive les jours et toute la partie « À savoir »
     const caseAbsent = document.getElementById("absent");
-    const liees = ["j5", "j6", "degustation"].map(function (n) { return form.elements[n]; });
+    const liees = ["j5", "j6", "vege", "degustation"].map(function (n) { return form.elements[n]; });
     function majAbsence() {
       liees.forEach(function (c) {
         if (caseAbsent.checked) c.checked = false;
         c.disabled = caseAbsent.checked;
         c.closest(".case").classList.toggle("inactive", caseAbsent.checked);
       });
+      form.elements.vege.closest("fieldset").classList.toggle("inactive", caseAbsent.checked);
     }
     caseAbsent.addEventListener("change", majAbsence);
 
@@ -625,7 +627,7 @@
       const donnees = new URLSearchParams({
         prenom: prenom, nom: nom,
         j5: !absent && d.get("j5") ? "oui" : "", j6: !absent && d.get("j6") ? "oui" : "",
-        vege: d.get("vege") ? "oui" : "", degustation: !absent && d.get("degustation") ? "oui" : "",
+        vege: !absent && d.get("vege") ? "oui" : "", degustation: !absent && d.get("degustation") ? "oui" : "",
         absent: absent ? "oui" : "", remarques: (d.get("remarques") || "").trim().slice(0, 500)
       });
       bouton.disabled = true; dire("Envoi en cours…");
