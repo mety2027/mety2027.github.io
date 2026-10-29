@@ -4,28 +4,381 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Marine & Yohan — Porto, 5 et 6 septembre 2027</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💛</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<meta name="description" content="Le mariage de Marine et Yohan à Porto, les 5 et 6 septembre 2027 : programme, réponse et idées de logement.">
+<meta property="og:title" content="Marine & Yohan — Porto, 5 et 6 septembre 2027">
+<meta property="og:description" content="Programme, confirmation de présence et idées de logement.">
+<meta property="og:image" content="https://mety2027.com/assets/img/recto.jpg">
+<meta property="og:url" content="https://mety2027.com/">
+<meta name="theme-color" content="#F6EBDE">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/pinyon.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-  :root { --papier:#F4E9DB; --vert:#6E7F45; --orange:#C9742F; }
-  * { box-sizing:border-box; margin:0; }
-  html, body { min-height:100%; background:var(--papier); }
-  body {
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:1.5rem; padding:max(1.5rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom));
-    font-family:"Cormorant Garamond", Garamond, "Times New Roman", serif; color:var(--vert);
-    text-align:center; min-height:100vh;
+  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant.woff2") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant-italic.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+  @font-face { font-family: "Pinyon"; src: url("assets/fonts/pinyon.woff2") format("woff2"); font-display: swap; }
+
+  :root {
+    color-scheme: light;
+    --papier: #F6EBDE;
+    --orange: #C4702B;
+    --orange-cadre: #DD8A3F;
+    --vert: #6C6F3E;
+    --vert-cadre: #7D8447;
+    --rose: #BF3D6C;
+    --or: #B38A3A;
+    --encre: #5E5845;
+    --encre-douce: #7C7562;
+    --chemin: #D9CB8F;
+    --serif: "Cormorant", "Cormorant Garamond", Garamond, "Times New Roman", serif;
+    --script: "Pinyon", "Snell Roundhand", "Apple Chancery", cursive;
+    --bandes: transparent 0 26px,
+      rgba(214, 63, 116, .48) 26px 52px, transparent 52px 78px,
+      rgba(240, 138, 58, .46) 78px 104px, transparent 104px 130px,
+      rgba(243, 190, 72, .50) 130px 156px, transparent 156px 182px,
+      rgba(150, 172, 80, .44) 182px 208px;
   }
-  img { width:min(420px, 100%); height:auto; box-shadow:0 2px 18px rgba(110,90,60,.18); }
-  p { font-size:1.35rem; font-style:italic; line-height:1.4; max-width:28em; }
-  small { color:var(--orange); font-size:1rem; letter-spacing:.04em; }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: max(16px, env(safe-area-inset-top)) clamp(12px, 4vw, 48px) max(16px, env(safe-area-inset-bottom));
+    background-color: #FBF2E7;
+    background-image:
+      repeating-linear-gradient(90deg, var(--bandes)),
+      repeating-linear-gradient(0deg, var(--bandes));
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--encre);
+  }
+
+  /* ---------- La carte ---------- */
+  .carte {
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
+    --pad: clamp(26px, 7vw, 56px);
+    padding: 46px var(--pad) 0;
+    background-color: var(--papier);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    box-shadow: 0 1px 2px rgba(90, 60, 30, .10), 0 10px 40px rgba(90, 60, 30, .14);
+    text-align: center;
+  }
+  /* double filet du recto : orange dehors, vert dedans, tracé à la main */
+  .cadre { position: absolute; pointer-events: none; filter: url(#trait); }
+  .cadre--orange { inset: 9px; border: 2px solid var(--orange-cadre); border-radius: 3px; }
+  .cadre--vert { inset: 17px; border: 2px solid var(--vert-cadre); border-radius: 2px; }
+  .boucle { position: absolute; width: 13px; height: 13px; border: 2px solid var(--orange-cadre); border-radius: 50%; background: var(--papier); filter: url(#trait); }
+  .boucle--hg { top: 3px; left: 3px; } .boucle--hd { top: 3px; right: 3px; }
+  .boucle--bg { bottom: 3px; left: 3px; } .boucle--bd { bottom: 3px; right: 3px; }
+
+  /* ---------- Compte à rebours ---------- */
+  .rebours { margin: 0 0 6px; }
+  .rebours__avant, .rebours__apres { display: block; font-style: italic; color: var(--encre-douce); font-size: 1.1rem; }
+  .rebours__nombre {
+    display: block;
+    font-weight: 500;
+    font-size: clamp(3.4rem, 15vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: .04em;
+    color: var(--orange);
+    font-variant-numeric: lining-nums;
+    margin: 4px 0 2px;
+  }
+
+  /* ---------- En-tête du recto ---------- */
+  .monogramme { display: block; width: min(210px, 52%); height: auto; margin: 26px auto 18px; }
+  .dates { margin: 0; font-size: clamp(1.35rem, 5.4vw, 1.75rem); letter-spacing: .1em; color: var(--orange); font-variant-numeric: lining-nums; }
+  .ville { margin: 0 0 30px; font-family: var(--script); font-weight: 400; font-size: clamp(2.6rem, 11vw, 3.4rem); line-height: 1.25; color: var(--vert); }
+
+  /* ---------- Menu déroulant ---------- */
+  .filet { display: block; width: 100%; height: 14px; color: var(--rose); }
+  details { text-align: center; }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 18px 8px 16px;
+    font-family: var(--script);
+    font-size: clamp(1.9rem, 7.6vw, 2.35rem);
+    line-height: 1.2;
+    color: var(--rose);
+    border-radius: 6px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "";
+    display: block;
+    width: 10px; height: 10px;
+    margin: 6px auto 0;
+    border-right: 1.5px solid var(--rose);
+    border-bottom: 1.5px solid var(--rose);
+    transform: rotate(45deg);
+    transition: transform .25s ease;
+  }
+  details[open] > summary::after { transform: rotate(-135deg); margin-top: 12px; }
+  summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .volet { padding: 4px 0 34px; }
+  .volet p { margin: 0 auto 1em; max-width: 30em; }
+  .note { font-style: italic; color: var(--encre-douce); font-size: 1.02rem; }
+
+  /* ---------- Formulaire ---------- */
+  form { max-width: 26em; margin: 0 auto; text-align: left; }
+  .champ { margin-bottom: 16px; }
+  .champ label { display: block; font-style: italic; color: var(--encre-douce); font-size: 1rem; }
+  .champ input {
+    width: 100%;
+    padding: 6px 2px 5px;
+    border: 0;
+    border-bottom: 1.5px solid #CDB89A;
+    background: transparent;
+    font: inherit;
+    font-size: 1.25rem;
+    color: var(--encre);
+    border-radius: 0;
+  }
+  .champ input:focus { outline: none; border-bottom-color: var(--orange); }
+  fieldset { border: 0; margin: 22px 0 0; padding: 0; }
+  legend { font-family: var(--script); font-size: 1.7rem; color: var(--vert); padding: 0; margin-bottom: 6px; }
+  .case { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; cursor: pointer; }
+  .case input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .case__boite {
+    flex: none; width: 22px; height: 22px; margin-top: 3px;
+    border: 1.5px solid var(--orange-cadre); border-radius: 3px; background: #FBF4EA;
+    display: grid; place-items: center; transition: background .15s ease;
+  }
+  .case__boite::after { content: ""; width: 6px; height: 11px; border-right: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(45deg) translate(-1px, -1px); opacity: 0; }
+  .case input:checked + .case__boite { background: var(--orange-cadre); }
+  .case input:checked + .case__boite::after { opacity: 1; }
+  .case input:focus-visible + .case__boite { outline: 2px solid var(--vert); outline-offset: 2px; }
+  .case small { display: block; font-style: italic; color: var(--encre-douce); font-size: .98rem; }
+  .piege { position: absolute; left: -9999px; }
+  .envoyer {
+    display: block;
+    margin: 28px auto 0;
+    padding: 11px 30px 12px;
+    border: 1.5px solid var(--rose);
+    border-radius: 999px;
+    background: var(--rose);
+    color: #fff;
+    font: inherit;
+    font-size: 1.2rem;
+    letter-spacing: .02em;
+    cursor: pointer;
+  }
+  .envoyer:hover { background: #A9305B; border-color: #A9305B; }
+  .envoyer:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+  .envoyer[disabled] { opacity: .6; cursor: wait; }
+  .message { min-height: 1.5em; margin: 16px 0 0; text-align: center; font-style: italic; }
+  .message--erreur { color: #A6332E; }
+  .message--ok { color: var(--vert); font-size: 1.25rem; }
+
+  /* ---------- Déroulé ---------- */
+  .jour { margin: 6px 0 4px; font-family: var(--script); font-weight: 400; font-size: clamp(1.65rem, 6.6vw, 2.3rem); line-height: 1.25; color: var(--vert); }
+  .etape { display: grid; gap: 6px; justify-items: center; margin: 0 0 8px; }
+  .etape img { width: min(300px, 88%); height: auto; }
+  .etape__heure { display: block; font-size: 1.2rem; letter-spacing: .06em; color: var(--encre-douce); font-variant-numeric: lining-nums; }
+  .etape__titre { display: block; font-family: var(--script); font-size: 2rem; line-height: 1.2; color: var(--rose); }
+  .etape__lieu { display: block; font-size: 1.2rem; }
+  .etape address { font-style: normal; font-size: 1.02rem; color: var(--encre-douce); margin-top: 2px; }
+  .itineraire { display: inline-block; margin-top: 8px; color: var(--orange); font-style: italic; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .itineraire:hover { color: var(--rose); }
+  .itineraire:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 2px; }
+  .chemin { display: block; width: 70px; height: 74px; margin: 2px auto; color: var(--chemin); }
+  @media (min-width: 620px) {
+    .etape { grid-template-columns: 1fr 1fr; align-items: center; gap: 18px; text-align: left; justify-items: stretch; }
+    .etape img { width: 100%; }
+    .etape--inverse .etape__texte { order: -1; text-align: right; }
+  }
+
+  /* ---------- Logements ---------- */
+  .maisons { display: block; width: min(300px, 86%); height: auto; margin: 6px auto 14px; }
+
+  /* ---------- Bas de page ---------- */
+  .pied { margin: 6px calc(21px - var(--pad)) 0; padding-bottom: 19px; }
+  .pied img { display: block; width: 100%; height: auto; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
-  <img src="recto.jpg" alt="Save the date : Marine et Yohan, Porto, 5 et 6 septembre 2027">
-  <p>Le site de notre mariage arrive bientôt.</p>
-  <small>05.09.27 &amp; 06.09.27</small>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="trait"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+</svg>
+
+<main class="carte">
+  <div class="cadre cadre--orange" aria-hidden="true"></div>
+  <div class="cadre cadre--vert" aria-hidden="true"></div>
+  <span class="boucle boucle--hg" aria-hidden="true"></span><span class="boucle boucle--hd" aria-hidden="true"></span>
+  <span class="boucle boucle--bg" aria-hidden="true"></span><span class="boucle boucle--bd" aria-hidden="true"></span>
+
+  <p class="rebours" id="rebours" aria-live="polite">
+    <span class="rebours__avant">Plus que</span>
+    <span class="rebours__nombre" id="rebours-nombre">—</span>
+    <span class="rebours__apres" id="rebours-apres">jours avant le 5 septembre 2027</span>
+  </p>
+
+  <img class="monogramme" src="assets/img/monogramme.webp" width="377" height="481" alt="Monogramme M et Y de Marine et Yohan">
+  <p class="dates">05.09.27 &amp; 06.09.27</p>
+  <h1 class="ville">Porto</h1>
+
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 120 3, 260 12, 380 6 S 540 5, 598 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+
+  <!-- 1. Réponse -->
+  <details id="reponse">
+    <summary>Je confirme ma présence</summary>
+    <div class="volet">
+      <p class="note">Une réponse par personne : si vous venez à deux, remplissez le formulaire deux fois.</p>
+      <form id="form-reponse" novalidate>
+        <div class="champ">
+          <label for="prenom">Prénom</label>
+          <input id="prenom" name="prenom" type="text" autocomplete="given-name" required>
+        </div>
+        <div class="champ">
+          <label for="nom">Nom</label>
+          <input id="nom" name="nom" type="text" autocomplete="family-name" required>
+        </div>
+        <input class="piege" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <fieldset>
+          <legend>Je serai là</legend>
+          <label class="case"><input type="checkbox" name="j5" value="oui"><span class="case__boite"></span><span>le dimanche 5 septembre</span></label>
+          <label class="case"><input type="checkbox" name="j6" value="oui"><span class="case__boite"></span><span>le lundi 6 septembre</span></label>
+        </fieldset>
+        <fieldset>
+          <legend>À savoir</legend>
+          <label class="case"><input type="checkbox" name="vege" value="oui"><span class="case__boite"></span><span>Je mange végétarien</span></label>
+          <label class="case"><input type="checkbox" name="degustation" value="oui"><span class="case__boite"></span><span>Je suis intéressé(e) par la dégustation en cave de Porto le mardi 7 septembre<small>Informations à venir</small></span></label>
+        </fieldset>
+
+        <button class="envoyer" type="submit">Envoyer ma réponse</button>
+        <p class="message" id="message" role="status"></p>
+      </form>
+    </div>
+  </details>
+
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+
+  <!-- 2. Déroulé -->
+  <details id="deroule">
+    <summary>Déroulé du mariage</summary>
+    <div class="volet">
+      <h2 class="jour">Dimanche 5 septembre 2027</h2>
+
+      <div class="etape">
+        <img src="assets/img/eglise.webp" width="394" height="348" alt="L'église São Martinho de Cucujães, façade d'azulejos bleus" loading="lazy">
+        <div class="etape__texte">
+          <span class="etape__heure">13h30</span>
+          <span class="etape__titre">Cérémonie</span>
+          <span class="etape__lieu">à l'église São Martinho de Cucujães</span>
+          <address>Rua do Município, 3720 Cucujães (Oliveira de Azeméis)</address>
+          <a class="itineraire" href="https://www.google.com/maps/search/?api=1&amp;query=40.86694%2C-8.49719" target="_blank" rel="noopener">Ouvrir l'itinéraire</a>
+        </div>
+      </div>
+
+      <svg class="chemin" viewBox="0 0 70 74" aria-hidden="true"><path d="M20 2 C 60 18, 4 40, 46 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".75"/></svg>
+
+      <div class="etape etape--inverse">
+        <img src="assets/img/diner.webp" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
+        <div class="etape__texte">
+          <span class="etape__heure">puis</span>
+          <span class="etape__titre">Cocktail et dîner</span>
+          <span class="etape__lieu">à la Quinta do Pinhal, à Jovim</span>
+          <address>Rua das Sanjinhas 320, 4510-127 Jovim (Gondomar)</address>
+          <a class="itineraire" href="https://www.google.com/maps/search/?api=1&amp;query=41.1041%2C-8.52381" target="_blank" rel="noopener">Ouvrir l'itinéraire</a>
+        </div>
+      </div>
+
+      <svg class="chemin" viewBox="0 0 70 74" aria-hidden="true"><path d="M46 2 C 6 22, 66 44, 24 72" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".75"/></svg>
+
+      <h2 class="jour">Lundi 6 septembre 2027</h2>
+      <div class="etape">
+        <img src="assets/img/set-lounge.webp" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
+        <div class="etape__texte">
+          <span class="etape__heure">14h30</span>
+          <span class="etape__titre">Brunch et soirée</span>
+          <span class="etape__lieu">au Set Lounge, à Azurara</span>
+          <address>Rua do Gaiato 431, 4480-179 Azurara (Vila do Conde)</address>
+          <a class="itineraire" href="https://www.google.com/maps/search/?api=1&amp;query=Set+Lounge%2C+Rua+do+Gaiato+431%2C+4480-179+Azurara" target="_blank" rel="noopener">Ouvrir l'itinéraire</a>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 110 4, 240 11, 350 6 S 530 4, 598 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+
+  <!-- 3. Logements -->
+  <details id="logements">
+    <summary>Idées logements</summary>
+    <div class="volet">
+      <img class="maisons" src="assets/img/maisons.webp" width="330" height="198" alt="Maisons colorées du quartier de la Ribeira, à Porto" loading="lazy">
+      <p>À visée informative, des logements dans la région du mariage pour vos idées et réservations.</p>
+      <p class="note">Nos suggestions arrivent bientôt.</p>
+    </div>
+  </details>
+
+  <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+
+  <footer class="pied">
+    <img src="assets/img/porto.webp" width="755" height="282" alt="Porto vu depuis le Douro : la Ribeira, le pont Dom-Luís et un bateau rabelo" loading="lazy">
+  </footer>
+</main>
+
+<script>
+  // ---------- Adresse du tableau Google qui reçoit les réponses ----------
+  const RSVP_URL = "";
+
+  // ---------- Compte à rebours (en jours, heure de Porto) ----------
+  (function () {
+    const nombre = document.getElementById("rebours-nombre");
+    const avant = document.querySelector(".rebours__avant");
+    const apres = document.getElementById("rebours-apres");
+    const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()).split("-");
+    const aujourdhui = Date.UTC(+parts[0], +parts[1] - 1, +parts[2]);
+    const jours = Math.round((Date.UTC(2027, 8, 5) - aujourdhui) / 86400000);
+    if (jours > 1) { nombre.textContent = jours; }
+    else if (jours === 1) { avant.textContent = "Plus qu’"; nombre.textContent = "1"; apres.textContent = "jour avant le 5 septembre 2027"; }
+    else if (jours === 0 || jours === -1) { avant.textContent = ""; nombre.textContent = "C’est le grand jour"; nombre.style.fontSize = "2.4rem"; apres.textContent = "Bienvenue à Porto"; }
+    else { avant.textContent = ""; nombre.textContent = "Merci"; apres.textContent = "d’avoir partagé ces jours avec nous"; }
+  })();
+
+  // ---------- Formulaire de réponse ----------
+  (function () {
+    const form = document.getElementById("form-reponse");
+    const msg = document.getElementById("message");
+    const bouton = form.querySelector(".envoyer");
+    function dire(texte, type) { msg.textContent = texte; msg.className = "message" + (type ? " message--" + type : ""); }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const d = new FormData(form);
+      const prenom = (d.get("prenom") || "").trim();
+      const nom = (d.get("nom") || "").trim();
+      if (!prenom || !nom) { dire("Indiquez votre prénom et votre nom.", "erreur"); (prenom ? form.nom : form.prenom).focus(); return; }
+      if (!d.get("j5") && !d.get("j6")) { dire("Cochez au moins un des deux jours.", "erreur"); return; }
+      if (d.get("site")) { return; }
+      if (!RSVP_URL) { dire("Le formulaire sera actif très bientôt. Merci de revenir un peu plus tard.", "erreur"); return; }
+
+      const donnees = new URLSearchParams({
+        prenom: prenom, nom: nom,
+        j5: d.get("j5") ? "oui" : "", j6: d.get("j6") ? "oui" : "",
+        vege: d.get("vege") ? "oui" : "", degustation: d.get("degustation") ? "oui" : ""
+      });
+      bouton.disabled = true; dire("Envoi en cours…");
+      try {
+        await fetch(RSVP_URL, { method: "POST", mode: "no-cors", body: donnees });
+        form.reset();
+        dire("Merci " + prenom + ", votre réponse est bien enregistrée.", "ok");
+      } catch (err) {
+        dire("La réponse n’est pas partie. Vérifiez votre connexion et réessayez.", "erreur");
+      } finally {
+        bouton.disabled = false;
+      }
+    });
+  })();
+</script>
 </body>
 </html>
