@@ -294,7 +294,7 @@
 
   .enveloppe {
     --rabat: 56%; --sceau: .25; --fs: .075;
-    --w: min(94vw, calc((100vh - 90px) * 1.6)); --h: calc(var(--w) / 1.6);
+    --h: min(calc(100vh - 90px), calc(94vw / 1.6)); --w: min(96vw, calc(var(--h) * 1.85));
     position: relative; width: var(--w); height: var(--h);
     padding: 0; border: 0; background: none; cursor: pointer; font-family: var(--serif);
     perspective: 1600px;
