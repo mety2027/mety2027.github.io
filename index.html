@@ -207,7 +207,7 @@
   .jour p { margin: 0 0 6px; font-style: italic; font-size: 1.05rem; color: var(--encre-douce); }
   .etape { display: grid; gap: 6px; justify-items: center; margin: 0 0 6px; justify-self: stretch; width: 100%; }
   .etape img { width: min(300px, 88%); height: auto; }
-  .etape__heure { display: block; font-size: 1.65rem; font-weight: 700; letter-spacing: .04em; color: var(--encre); font-variant-numeric: lining-nums; }
+  .etape__heure { display: block; white-space: nowrap; font-size: 1.65rem; font-weight: 700; letter-spacing: .04em; color: var(--encre); font-variant-numeric: lining-nums; }
   .etape__titre { display: block; font-family: var(--script); font-size: calc(2rem * var(--k-titre, 1)); line-height: 1.2; color: var(--rose); }
   .blanche { display: block; margin-top: 2px; font-size: 1.15rem; font-style: italic; letter-spacing: .08em; color: var(--encre-douce); }
   .insecable { white-space: nowrap; }
@@ -278,6 +278,7 @@
     .etape img { width: 100%; max-width: 340px; aspect-ratio: 4 / 3.3; object-fit: contain; }
     .chemin { align-self: center; margin-top: -60px; transform: rotate(-90deg); }
     .deroule { grid-template-columns: 1fr 44px 1fr 44px 1fr; }
+    .etape__titre { white-space: nowrap; }
     .etape__lieu { white-space: nowrap; font-size: calc(clamp(.9rem, 1.1vw, 1.2rem) * var(--k-lieu, 1)); }
     .etape address { font-size: calc(clamp(.82rem, 1vw, 1.02rem) * var(--k-adresse, 1)); }
     .nuancier { gap: 4px; margin-left: 7px; }
@@ -429,7 +430,6 @@
         <li class="rebours__unite"><span class="rebours__valeur"><span id="r-m">–</span></span><span class="rebours__label" id="l-m">minutes</span></li>
         <li class="rebours__unite"><span class="rebours__valeur"><span id="r-s">–</span></span><span class="rebours__label" id="l-s">secondes</span></li>
       </ul>
-      <p class="rebours__legende" id="rebours-legende">avant le 5 septembre 2027</p>
       <p id="rebours-lecteur" style="position:absolute;left:-9999px"></p>
     </div>
 
@@ -514,7 +514,7 @@
         <img src="assets/img/diner.webp?v=14" width="396" height="338" alt="Une longue table dressée en plein air sous des guirlandes lumineuses" loading="lazy">
         <div class="etape__texte">
           <span class="etape__heure">puis</span>
-          <span class="etape__titre">Cocktail et dîner</span>
+          <span class="etape__titre">Cocktail, dîner<br class="mobile-seul"> et festivités</span>
           <span class="etape__lieu">à la Quinta do Pinhal, à Jovim</span>
           <address>Rua das Sanjinhas 320, 4510-127 Jovim (Gondomar)</address>
           <a class="itineraire" href="https://www.google.com/maps/search/?api=1&amp;query=41.1041%2C-8.52381" target="_blank" rel="noopener">Ouvrir l'itinéraire</a>
@@ -530,7 +530,7 @@
       <div class="etape etape--3">
         <img src="assets/img/set-lounge.webp?v=14" width="488" height="366" alt="Le Set Lounge, sur la plage d'Azurara, entre palmiers et océan" loading="lazy">
         <div class="etape__texte">
-          <span class="etape__heure">14h30</span>
+          <span class="etape__heure">De 14h30 à 23h30</span>
           <span class="etape__titre">Brunch et soirée</span>
           <span class="etape__lieu">au Set Lounge, thème couleur : <span class="insecable">journée blanche<span class="nuancier" aria-hidden="true"><i style="--c:#FFFFFF"></i><i style="--c:#FDFAF2"></i><i style="--c:#F8F1E1"></i></span></span></span>
           <address>Rua do Gaiato 431, 4480-179 Azurara (Vila do Conde)</address>
@@ -734,7 +734,7 @@
       Object.keys(groupes).forEach(function (v) {
         k[v] = MAX;
         mesures[v].forEach(function (m) { if (m.mono && m.w > 0) k[v] = Math.min(k[v], m.dispo / m.w); });
-        k[v] = Math.max(1, k[v] * 0.97);
+        k[v] = Math.max(v === "--k-titre" ? 0.7 : 1, k[v] * 0.97);
       });
       // garder la hiérarchie : adresse un peu plus petite que le lieu, lien pas plus grand que le lieu
       const lieuPx = base["--k-lieu"] * k["--k-lieu"];
