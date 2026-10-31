@@ -230,8 +230,13 @@
   .infos .guirlande { grid-column: 1 / -1; }
 
   /* ---------- Bas de page ---------- */
-  .pied { margin: auto calc(20px - var(--pad)) 0; padding: 10px 0 19px; }
-  .pied img { display: block; width: 100%; max-width: 1500px; height: auto; margin: 0 auto; }
+  .pied { margin: auto calc(20px - var(--pad)) 0; padding: 18px 0 19px; }
+  .pied img {
+    display: block; width: 100%; height: auto; margin: 0 auto;
+    /* le ciel se fond dans le papier, comme une aquarelle */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%);
+            mask-image: linear-gradient(to bottom, transparent 0, #000 22%);
+  }
 
   /* ================= Ordinateur : mise en page paysage ================= */
   @media (min-width: 900px) {
@@ -569,7 +574,7 @@
   <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <footer class="pied">
-    <img src="assets/img/porto.webp?v=14" width="1600" height="895" alt="Porto au bord du Douro : les maisons colorées, le pont Dom-Luís, un bateau et un bouquet de tournesols" loading="lazy">
+    <img src="assets/img/porto-photo.webp?v=15" width="1774" height="887" alt="Porto au bord du Douro : les maisons colorées de la Ribeira, le pont Dom-Luís et des bateaux rabelos" loading="lazy">
   </footer>
 </main>
 
