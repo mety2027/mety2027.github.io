@@ -203,17 +203,17 @@
   .jour { margin: 6px 0 2px; }
   .jour h3 { margin: 0; font-family: var(--script); font-weight: 400; font-size: clamp(1.65rem, 6.6vw, 2.3rem); line-height: 1.25; color: var(--vert-clair); }
   .jour p { margin: 0 0 6px; font-style: italic; font-size: 1.05rem; color: var(--encre-douce); }
-  .etape { display: grid; gap: 6px; justify-items: center; margin: 0 0 6px; }
+  .etape { display: grid; gap: 6px; justify-items: center; margin: 0 0 6px; justify-self: stretch; width: 100%; }
   .etape img { width: min(300px, 88%); height: auto; }
   .etape__heure { display: block; font-size: 1.65rem; font-weight: 700; letter-spacing: .04em; color: var(--encre); font-variant-numeric: lining-nums; }
-  .etape__titre { display: block; font-family: var(--script); font-size: 2rem; line-height: 1.2; color: var(--rose); }
+  .etape__titre { display: block; font-family: var(--script); font-size: calc(2rem * var(--k-titre, 1)); line-height: 1.2; color: var(--rose); }
   .blanche { display: block; margin-top: 2px; font-size: 1.15rem; font-style: italic; letter-spacing: .08em; color: var(--encre-douce); }
   .insecable { white-space: nowrap; }
   .nuancier { display: inline-flex; gap: 5px; margin-left: 9px; vertical-align: -3px; }
-  .nuancier i { width: 18px; height: 18px; border-radius: 50%; background: var(--c); border: 1px solid #D9C9A8; box-shadow: inset 0 -2px 4px rgba(150, 120, 70, .12), 0 1px 2px rgba(120, 90, 40, .15); }
-  .etape__lieu { display: block; font-size: 1.2rem; }
-  .etape address { font-style: normal; font-size: 1.02rem; color: var(--encre-douce); margin-top: 2px; }
-  .itineraire { display: inline-block; margin-top: 8px; color: var(--orange); font-style: italic; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .nuancier i { width: calc(18px * var(--k-lieu, 1)); height: calc(18px * var(--k-lieu, 1)); border-radius: 50%; background: var(--c); border: 1px solid #D9C9A8; box-shadow: inset 0 -2px 4px rgba(150, 120, 70, .12), 0 1px 2px rgba(120, 90, 40, .15); }
+  .etape__lieu { display: block; font-size: calc(1.2rem * var(--k-lieu, 1)); }
+  .etape address { font-style: normal; font-size: calc(1.02rem * var(--k-adresse, 1)); color: var(--encre-douce); margin-top: 2px; }
+  .itineraire { display: inline-block; margin-top: 8px; font-size: calc(1em * var(--k-lien, 1)); color: var(--orange); font-style: italic; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   .itineraire:hover { color: var(--rose); }
   .itineraire:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 2px; }
   .chemin { display: block; width: 70px; height: 74px; margin: 2px auto; color: var(--chemin); }
@@ -271,10 +271,10 @@
     .etape img { width: 100%; max-width: 340px; aspect-ratio: 4 / 3.3; object-fit: contain; }
     .chemin { align-self: center; margin-top: -60px; transform: rotate(-90deg); }
     .deroule { grid-template-columns: 1fr 44px 1fr 44px 1fr; }
-    .etape__lieu { white-space: nowrap; font-size: clamp(.9rem, 1.1vw, 1.2rem); }
-    .etape address { font-size: clamp(.82rem, 1vw, 1.02rem); }
+    .etape__lieu { white-space: nowrap; font-size: calc(clamp(.9rem, 1.1vw, 1.2rem) * var(--k-lieu, 1)); }
+    .etape address { font-size: calc(clamp(.82rem, 1vw, 1.02rem) * var(--k-adresse, 1)); }
     .nuancier { gap: 4px; margin-left: 7px; }
-    .nuancier i { width: 15px; height: 15px; }
+    .nuancier i { width: calc(15px * var(--k-lieu, 1)); height: calc(15px * var(--k-lieu, 1)); }
 
     .infos { grid-template-columns: 1fr 1fr; max-width: 1100px; margin: 0 auto; column-gap: 6%; align-items: start; }
   }
@@ -695,6 +695,50 @@
     }
     const minuteur = setInterval(tic, 1000);
     tic();
+  })();
+
+
+  // ---------- Déroulé : textes agrandis au maximum sans casser les lignes ----------
+  (function () {
+    const d = document.querySelector(".deroule");
+    const groupes = { "--k-titre": ".etape__titre", "--k-lieu": ".etape__lieu", "--k-adresse": ".etape address", "--k-lien": ".itineraire" };
+    const MAX = 1.5;
+    function largeurNaturelle(e) {
+      const ws = e.style.whiteSpace; e.style.whiteSpace = "nowrap";
+      const r = document.createRange(); r.selectNodeContents(e); const w = r.getBoundingClientRect().width;
+      e.style.whiteSpace = ws; return w;
+    }
+    function uneLigne(e) {
+      const cs = getComputedStyle(e); let lh = parseFloat(cs.lineHeight);
+      if (isNaN(lh)) lh = parseFloat(cs.fontSize) * 1.3;
+      return e.getBoundingClientRect().height < lh * 1.6;
+    }
+    function ajuster() {
+      if (!d || !d.offsetParent || !d.closest("details").open) return;
+      Object.keys(groupes).forEach(function (v) { d.style.setProperty(v, 1); });
+      const mesures = {}, base = {};
+      Object.keys(groupes).forEach(function (v) {
+        base[v] = parseFloat(getComputedStyle(d.querySelector(groupes[v])).fontSize);
+        mesures[v] = [...d.querySelectorAll(groupes[v])].map(function (e) {
+          return { mono: uneLigne(e), w: largeurNaturelle(e), dispo: e.closest(".etape").clientWidth };
+        });
+      });
+      const k = {};
+      Object.keys(groupes).forEach(function (v) {
+        k[v] = MAX;
+        mesures[v].forEach(function (m) { if (m.mono && m.w > 0) k[v] = Math.min(k[v], m.dispo / m.w); });
+        k[v] = Math.max(1, k[v] * 0.97);
+      });
+      // garder la hiérarchie : adresse un peu plus petite que le lieu, lien pas plus grand que le lieu
+      const lieuPx = base["--k-lieu"] * k["--k-lieu"];
+      k["--k-adresse"] = Math.max(1, Math.min(k["--k-adresse"], 0.92 * lieuPx / base["--k-adresse"]));
+      k["--k-lien"] = Math.max(1, Math.min(k["--k-lien"], 1.0 * lieuPx / base["--k-lien"]));
+      Object.keys(k).forEach(function (v) { d.style.setProperty(v, k[v].toFixed(3)); });
+    }
+    const det = d && d.closest("details");
+    if (det) det.addEventListener("toggle", ajuster);
+    window.addEventListener("resize", function () { clearTimeout(ajuster.t); ajuster.t = setTimeout(ajuster, 150); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajuster);
   })();
 
   // ---------- Formulaire de réponse ----------
