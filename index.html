@@ -45,7 +45,7 @@
       rgba(240, 138, 58, .46) 78px 104px, transparent 104px 130px,
       rgba(243, 190, 72, .50) 130px 156px, transparent 156px 182px,
       rgba(150, 172, 80, .44) 182px 208px;
-    --nappe: url("assets/img/nappe.webp?v=14");
+    --nappe: url("assets/img/nappe.webp?v=16");
   }
 
   * { box-sizing: border-box; }
@@ -118,6 +118,8 @@
   .histoire__sous { margin: 0 0 12px; font-size: 1.05rem; letter-spacing: .14em; color: var(--vert); font-variant: small-caps; }
   .histoire p:not([class]) { margin: 0 0 .7em; }
   .histoire__date { margin: 0 0 6px; font-size: 1.2rem; font-style: italic; line-height: 1.5; text-wrap: balance; }
+  .mobile-seul { display: none; }
+  @media (max-width: 899px) { .mobile-seul { display: inline; } }
   .histoire__suite { margin: 10px 0 0; font-family: var(--script); font-size: 1.8rem; line-height: 1.2; color: var(--rose); }
 
   /* ---------- Menu déroulant ---------- */
@@ -433,8 +435,8 @@
 
     <section class="histoire">
       <svg class="vague" viewBox="0 0 96 22" aria-hidden="true"><path d="M3 7 C 15 1, 27 13, 39 7 S 63 1, 75 7 S 90 11, 93 8" stroke="#D62F6A"/><path d="M3 12 C 15 6, 27 18, 39 12 S 63 6, 75 12 S 90 16, 93 13" stroke="#EE8A1F"/><path d="M3 17 C 15 11, 27 23, 39 17 S 63 11, 75 17 S 90 21, 93 18" stroke="#6E8A3A"/></svg>
-      <p class="histoire__date">Le 17 mars 2026, nos chemins se sont croisés, et depuis, c’est une évidence…</p>
-      <p class="histoire__suite">Et maintenant, place à la suite !</p>
+      <p class="histoire__date">Le 17 mars 2016, nos chemins se sont croisés, et depuis, c’est une évidence…</p>
+      <p class="histoire__suite">Et maintenant,<br class="mobile-seul"> place à la suite !</p>
     </section>
 
   </header>
@@ -445,7 +447,7 @@
   <details id="reponse">
     <summary>Je confirme ma présence</summary>
     <div class="volet">
-      <p class="note">Une réponse par personne : si vous venez à deux, remplissez le formulaire deux fois.</p>
+      <p class="note">Une réponse par personne : si vous venez à plusieurs, remplissez le formulaire plusieurs fois.</p>
       <form id="form-reponse" novalidate>
         <div class="form__colonne">
           <div class="champ">
@@ -530,7 +532,7 @@
         <div class="etape__texte">
           <span class="etape__heure">14h30</span>
           <span class="etape__titre">Brunch et soirée</span>
-          <span class="etape__lieu">Journée blanche au Set Lounge, à <span class="insecable">Azurara<span class="nuancier" aria-hidden="true"><i style="--c:#FFFFFF"></i><i style="--c:#FDFAF2"></i><i style="--c:#F8F1E1"></i></span></span></span>
+          <span class="etape__lieu">au Set Lounge, thème couleur : <span class="insecable">journée blanche<span class="nuancier" aria-hidden="true"><i style="--c:#FFFFFF"></i><i style="--c:#FDFAF2"></i><i style="--c:#F8F1E1"></i></span></span></span>
           <address>Rua do Gaiato 431, 4480-179 Azurara (Vila do Conde)</address>
           <a class="itineraire" href="https://www.google.com/maps/search/?api=1&amp;query=Set+Lounge%2C+Rua+do+Gaiato+431%2C+4480-179+Azurara" target="_blank" rel="noopener">Ouvrir l'itinéraire</a>
         </div>
@@ -574,7 +576,7 @@
   <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <footer class="pied">
-    <img src="assets/img/porto-photo.webp?v=15" width="1774" height="887" alt="Porto au bord du Douro : les maisons colorées de la Ribeira, le pont Dom-Luís et des bateaux rabelos" loading="lazy">
+    <img src="assets/img/porto-photo.webp?v=16" width="1774" height="887" alt="Porto au bord du Douro : les maisons colorées de la Ribeira, le pont Dom-Luís et des bateaux rabelos" loading="lazy">
   </footer>
 </main>
 
