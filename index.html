@@ -230,6 +230,16 @@
   .info__accroche { font-style: italic; color: var(--orange); font-size: 1.2rem; }
   .maison { display: block; width: min(300px, 86%); height: auto; margin: 6px auto 14px; }
   .infos .guirlande { grid-column: 1 / -1; }
+  .logements { display: grid; gap: 22px; margin-top: 6px; width: 100%; }
+  .logements h4 { margin: 0 0 6px; font-family: var(--script); font-weight: 400; font-size: 1.7rem; color: var(--rose); }
+  .logements__liste { list-style: none; margin: 0; padding: 0; }
+  .logements__liste li { margin: 0 0 6px; }
+  .logements__liste .logements__type { margin: 14px 0 6px; font-style: italic; font-size: .95em; letter-spacing: .04em; color: var(--encre-douce); }
+  .logements__liste .logements__type:first-child { margin-top: 0; }
+  .logements__liste a { color: var(--encre); text-decoration: underline; text-decoration-color: rgba(224, 122, 31, .5); text-underline-offset: 3px; }
+  .logements__liste a:hover { color: var(--orange); }
+  .logements__liste .lg-ville { color: var(--encre-douce); font-style: italic; }
+  @media (min-width: 900px) { .logements { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
 
   /* ---------- Bas de page ---------- */
   .pied { margin: auto calc(20px - var(--pad)) 0; padding: 18px 0 19px; }
@@ -284,7 +294,9 @@
     .nuancier { gap: 4px; margin-left: 7px; }
     .nuancier i { width: calc(15px * var(--k-lieu, 1)); height: calc(15px * var(--k-lieu, 1)); }
 
-    .infos { grid-template-columns: 1fr 1fr; max-width: 1100px; margin: 0 auto; column-gap: 6%; align-items: start; }
+    .infos { grid-template-columns: 1fr; max-width: 1000px; margin: 0 auto; row-gap: 40px; }
+    .info { max-width: 900px; }
+    .logements { max-width: 820px; margin-left: auto; margin-right: auto; }
   }
 
   /* ================= Enveloppe d'ouverture ================= */
@@ -549,8 +561,30 @@
       <section class="info">
         <svg class="info__icone" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 23 L24 8 L42 23"/><path d="M11 19 V40 H37 V19"/><path d="M20 40 V29 H28 V40"/><path d="M33 12.5 V8 H37 V16"/></svg>
         <h3>Idées logements</h3>
-        <p class="equilibre">Des logements dans la région du mariage, pour vos idées et&nbsp;réservations.</p>
-        <p class="note">Nos suggestions arrivent bientôt.</p>
+        <p class="equilibre">Les différents lieux se trouvent entre 30 et 45&nbsp;minutes de Porto. Si vous préférez vous rapprocher des lieux de festivités, voici d’autres idées de&nbsp;logements.</p>
+        <div class="logements">
+          <div class="logements__col">
+            <h4>Proche de Jovim</h4>
+            <ul class="logements__liste" id="liste-jovim">
+              <li class="logements__type">Hôtels et maisons d’hôtes</li>
+              <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Com+o+Douro+%C3%A0+vista%2C+Gondomar%2C+Portugal" target="_blank" rel="noopener">Com o Douro à vista</a>, <span class="lg-ville">Gondomar</span></li>
+              <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Empreendimento+Estrelas+do+Douro%2C+Av.+da+Foz+do+Sousa%2C+4515-656+Foz+do+Sousa%2C+Portugal" target="_blank" rel="noopener">Empreendimento Estrelas do Douro</a>, <span class="lg-ville">Foz do Sousa</span></li>
+              <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Goldnature%2C+R.+da+Aldeia+de+S%C3%A3o+Miguel+370%2C+S%C3%A3o+Cosme%2C+Gondomar%2C+Portugal" target="_blank" rel="noopener">Goldnature</a>, <span class="lg-ville">São Cosme</span></li>
+              <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Villarit+Porto%2C+R.+Sacadura+Cabral+40%2C+4420-299+S%C3%A3o+Cosme%2C+Portugal" target="_blank" rel="noopener">Villarit Porto</a>, <span class="lg-ville">São Cosme</span></li>
+              <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Pestana+Douro+Riverside%2C+Av.+Escritor+Costa+Barreto+60%2C+4420-445+Gondomar%2C+Portugal" target="_blank" rel="noopener">Pestana Douro Riverside</a>, <span class="lg-ville">Valbom</span></li>
+              <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Vinha+Boutique+Hotel%2C+R.+Fonte+da+Vinha+383%2C+4430-487+Vila+Nova+de+Gaia%2C+Portugal" target="_blank" rel="noopener">Vinha Boutique Hotel</a>, <span class="lg-ville">Vila Nova de Gaia</span></li>
+              <li class="logements__type">Locations (Airbnb)</li>
+              <li><a href="https://www.airbnb.fr/rooms/1397104175150852658" target="_blank" rel="noopener">Villa avec vue sur le Douro</a>, <span class="lg-ville">Jovim</span></li>
+              <li><a href="https://www.airbnb.fr/rooms/16669311" target="_blank" rel="noopener">The Douro River House</a>, <span class="lg-ville">São Cosme</span></li>
+              <li><a href="https://www.airbnb.fr/rooms/2096695" target="_blank" rel="noopener">Villa Maria Adelina</a>, <span class="lg-ville">Gondomar</span></li>
+              <li><a href="https://www.airbnb.fr/rooms/27950807" target="_blank" rel="noopener">Maison avec piscine couverte</a>, <span class="lg-ville">Foz do Sousa</span></li>
+            </ul>
+          </div>
+          <div class="logements__col">
+            <h4>Proche d’Azurara</h4>
+            <p class="note">Propositions à venir</p>
+          </div>
+        </div>
       </section>
       <section class="info">
         <svg class="info__icone" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="8"/><path d="M24 6 V11 M24 37 V42 M6 24 H11 M37 24 H42 M11.3 11.3 L14.8 14.8 M33.2 33.2 L36.7 36.7 M11.3 36.7 L14.8 33.2 M33.2 14.8 L36.7 11.3"/></svg>
@@ -576,7 +610,7 @@
   <svg class="filet" viewBox="0 0 600 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 140 11, 250 2, 360 8 S 520 10, 598 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
 
   <footer class="pied">
-    <img src="assets/img/porto-photo.webp?v=16" width="1774" height="887" alt="Porto au bord du Douro : les maisons colorées de la Ribeira, le pont Dom-Luís et des bateaux rabelos" loading="lazy">
+    <img src="assets/img/porto-photo.webp?v=17" width="1774" height="887" alt="Porto au bord du Douro : les maisons colorées de la Ribeira, le pont Dom-Luís et des bateaux rabelos" loading="lazy">
   </footer>
 </main>
 
