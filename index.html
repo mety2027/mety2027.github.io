@@ -230,11 +230,13 @@
   .info__accroche { font-style: italic; color: var(--orange); font-size: 1.2rem; }
   .maison { display: block; width: min(300px, 86%); height: auto; margin: 6px auto 14px; }
   .infos .guirlande { grid-column: 1 / -1; }
-  .logements { display: grid; gap: 22px; margin-top: 6px; width: 100%; }
+  .logements { display: grid; gap: 22px; margin-top: 6px; width: 100%; min-width: 0; }
+  .logements__col { min-width: 0; }
   .logements h4 { margin: 0 0 6px; font-family: var(--script); font-weight: 400; font-size: 1.7rem; color: var(--rose); }
-  .logements__liste { list-style: none; margin: 0; padding: 0; }
+  .logements__liste { list-style: none; margin: 0; padding: 0; font-size: calc(1.15rem * var(--k-log, 1)); }
+  .logements__liste li { white-space: nowrap; }
   .logements__liste li { margin: 0 0 6px; }
-  .logements__liste .logements__type { margin: 14px 0 6px; font-style: italic; font-size: .95em; letter-spacing: .04em; color: var(--encre-douce); }
+  .logements__liste .logements__type { margin: 16px 0 6px; font-family: var(--script); font-style: normal; font-size: 1.7rem; line-height: 1.2; letter-spacing: 0; color: var(--vert-clair); white-space: normal; }
   .logements__liste .logements__type:first-child { margin-top: 0; }
   .logements__liste a { color: var(--encre); text-decoration: underline; text-decoration-color: rgba(224, 122, 31, .5); text-underline-offset: 3px; }
   .logements__liste a:hover { color: var(--orange); }
@@ -561,7 +563,7 @@
       <section class="info">
         <svg class="info__icone" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 23 L24 8 L42 23"/><path d="M11 19 V40 H37 V19"/><path d="M20 40 V29 H28 V40"/><path d="M33 12.5 V8 H37 V16"/></svg>
         <h3>Idées logements</h3>
-        <p class="equilibre">Les différents lieux se trouvent entre 30 et 45&nbsp;minutes de Porto. Si vous préférez vous rapprocher des lieux de festivités, voici d’autres idées de&nbsp;logements.</p>
+        <p class="equilibre">Les différents lieux de festivités se trouvent entre 30 et 45&nbsp;minutes de Porto. Si vous souhaitez cependant vous rapprocher plus encore de certains, voici d’autres idées de&nbsp;logements.</p>
         <div class="logements">
           <div class="logements__col">
             <h4>Proche de Jovim</h4>
@@ -573,7 +575,7 @@
               <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Villarit+Porto%2C+R.+Sacadura+Cabral+40%2C+4420-299+S%C3%A3o+Cosme%2C+Portugal" target="_blank" rel="noopener">Villarit Porto</a>, <span class="lg-ville">São Cosme</span></li>
               <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Pestana+Douro+Riverside%2C+Av.+Escritor+Costa+Barreto+60%2C+4420-445+Gondomar%2C+Portugal" target="_blank" rel="noopener">Pestana Douro Riverside</a>, <span class="lg-ville">Valbom</span></li>
               <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Vinha+Boutique+Hotel%2C+R.+Fonte+da+Vinha+383%2C+4430-487+Vila+Nova+de+Gaia%2C+Portugal" target="_blank" rel="noopener">Vinha Boutique Hotel</a>, <span class="lg-ville">Vila Nova de Gaia</span></li>
-              <li class="logements__type">Locations (Airbnb)</li>
+              <li class="logements__type">Locations Airbnb</li>
               <li><a href="https://www.airbnb.fr/rooms/1397104175150852658" target="_blank" rel="noopener">Villa avec vue sur le Douro</a>, <span class="lg-ville">Jovim</span></li>
               <li><a href="https://www.airbnb.fr/rooms/16669311" target="_blank" rel="noopener">The Douro River House</a>, <span class="lg-ville">São Cosme</span></li>
               <li><a href="https://www.airbnb.fr/rooms/2096695" target="_blank" rel="noopener">Villa Maria Adelina</a>, <span class="lg-ville">Gondomar</span></li>
@@ -785,6 +787,27 @@
     }
     const det = d && d.closest("details");
     if (det) det.addEventListener("toggle", ajuster);
+    window.addEventListener("resize", function () { clearTimeout(ajuster.t); ajuster.t = setTimeout(ajuster, 150); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajuster);
+  })();
+
+
+  // ---------- Logements : chaque adresse tient sur une ligne ----------
+  (function () {
+    const bloc = document.querySelector(".logements"); if (!bloc) return;
+    const det = bloc.closest("details");
+    function ajuster() {
+      if (!det.open) return;
+      bloc.style.setProperty("--k-log", 1);
+      let k = 1;
+      bloc.querySelectorAll(".logements__liste li:not(.logements__type)").forEach(function (li) {
+        const r = document.createRange(); r.selectNodeContents(li);
+        const dispo = li.closest(".logements__col").clientWidth; const w = r.getBoundingClientRect().width;
+        if (w > dispo) k = Math.min(k, dispo / w);
+      });
+      bloc.style.setProperty("--k-log", (k * 0.98).toFixed(3));
+    }
+    det.addEventListener("toggle", ajuster);
     window.addEventListener("resize", function () { clearTimeout(ajuster.t); ajuster.t = setTimeout(ajuster, 150); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajuster);
   })();
